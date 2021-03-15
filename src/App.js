@@ -1,18 +1,29 @@
-import React from 'react'
-const App = () => {
-  return (
-    <div>APP 组件
-      <Component numbers={['a', 'b', 'c']} />
-    </div>
-  )
-}
+import React, {useState, useEffect} from 'react'
 
-const Component = (props) => {
+const App = () => {
+  const [n, setN] = useState(0)
+  const onClick = () => {
+    setN(n+1)
+  }
+
+  const useX = (n) => {
+    const [nUpdateCount, setNUpdateCount] = useState(0)
+    useEffect(() => {
+      setNUpdateCount(x => x +1)
+    }, [n])
+    return {
+      nUpdateCount
+    }
+  }
+  const {nUpdateCount} =  useX(n)
+  useEffect(() => {
+    if(nUpdateCount > 1){
+      console.log('变了')
+    }
+  }, [nUpdateCount])
   return (
-    <div>
-      {props.numbers.map((i, index) => {
-        return <div key={index}>下标是{index}值为{i}</div>
-      })}
+    <div>n: {n}
+       <button onClick={onClick}>+1</button>
     </div>
   )
 }
