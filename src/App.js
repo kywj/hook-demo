@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
+import useUpdate from './useUpdate.js'
 
 const App = () => {
   const [n, setN] = useState(0)
@@ -6,21 +7,10 @@ const App = () => {
     setN(n+1)
   }
 
-  const useX = (n) => {
-    const [nUpdateCount, setNUpdateCount] = useState(0)
-    useEffect(() => {
-      setNUpdateCount(x => x +1)
-    }, [n])
-    return {
-      nUpdateCount
-    }
-  }
-  const {nUpdateCount} =  useX(n)
-  useEffect(() => {
-    if(nUpdateCount > 1){
-      console.log('变了')
-    }
-  }, [nUpdateCount])
+  useUpdate(() => {
+    console.log('变了')
+  } ,n)  
+
   return (
     <div>n: {n}
        <button onClick={onClick}>+1</button>
